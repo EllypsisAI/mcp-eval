@@ -1,0 +1,16 @@
+{
+  "name": "mcp-eval",
+  "version": "0.2.0",
+  "description": "Evaluate MCP servers for production readiness. Test tools, measure token costs, grade responses, generate visual reports.",
+  "author": "Ellypsis",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "evaluation",
+    "testing",
+    "llm",
+    "claude",
+    "tool-evaluation",
+    "mcp-server"
+  ]
+}

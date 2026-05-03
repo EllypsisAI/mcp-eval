@@ -1,0 +1,84 @@
+{
+  "server": "X Research MCP",
+  "url": "stdio://npx/twitter-x-research-mcp",
+  "timestamp": "2026-03-22",
+  "context": "Evaluating the x-research MCP server for use in social listening and competitive intelligence workflows. Key questions: Does search return structured, useful data? How expensive are user timeline pulls? Are engagement metrics accessible on the free/Basic API tier? Can we chain user lookup -> tweets -> engagement reliably? Run via /eval-capture since this is a stdio server, not HTTP.",
+  "tests": [
+    {
+      "id": "search-1",
+      "name": "search-topic-ai-agents",
+      "tool": "x_search",
+      "params": {"query": "AI agents enterprise -is:retweet lang:en", "max_results": 10},
+      "workflow_step": "Search for recent tweets on a business-relevant topic to assess content quality and structure",
+      "assertions": [
+        "Returns at least one result",
+        "Each result has author info",
+        "Each result has engagement metrics",
+        "Results are relevant to AI agents topic"
+      ]
+    },
+    {
+      "id": "user-1",
+      "name": "get-user-by-username",
+      "tool": "x_get_user",
+      "params": {"username": "AnthropicAI"},
+      "workflow_step": "Look up a known account to get numeric ID for downstream calls",
+      "assertions": [
+        "Returns user profile data",
+        "Numeric user ID present",
+        "Follower count present",
+        "Bio/description present"
+      ]
+    },
+    {
+      "id": "tweets-1",
+      "name": "get-user-tweets-original",
+      "tool": "x_get_user_tweets",
+      "params": {"user_id": "FILL_FROM_user-1.id", "max_results": 10, "exclude": ["retweets", "replies"]},
+      "depends_on": "user-1",
+      "workflow_step": "Pull original tweets from the looked-up user to measure timeline token cost and content structure",
+      "assertions": [
+        "Returns at least one tweet",
+        "Each result has tweet text",
+        "Each result has engagement metrics",
+        "Response is useful for competitive intelligence on company messaging"
+      ]
+    },
+    {
+      "id": "mentions-1",
+      "name": "get-user-mentions",
+      "tool": "x_get_user_mentions",
+      "params": {"user_id": "FILL_FROM_user-1.id", "max_results": 10},
+      "depends_on": "user-1",
+      "workflow_step": "Get mentions to assess public conversation and sentiment",
+      "assertions": [
+        "Returns at least one mention",
+        "Each result has author info separate from mentioned user",
+        "Results show what people are saying about the account"
+      ]
+    },
+    {
+      "id": "trends-1",
+      "name": "get-trends-denmark",
+      "tool": "x_get_trends",
+      "params": {"woeid": 23424796},
+      "workflow_step": "Get Danish trending topics for local market intelligence",
+      "assertions": [
+        "Returns trending topics",
+        "Each trend has a name",
+        "Tweet volume data present for at least some trends"
+      ]
+    },
+    {
+      "id": "engagement-1",
+      "name": "get-tweet-retweeters",
+      "tool": "x_get_engagement",
+      "params": {"tweet_id": "1903477633285583031", "type": "retweeters", "max_results": 10},
+      "workflow_step": "Get retweeters of a specific tweet to test engagement data access on the current API tier",
+      "assertions": [
+        "Returns data or clear API tier error",
+        "If successful, retweeter profiles include usernames"
+      ]
+    }
+  ]
+}

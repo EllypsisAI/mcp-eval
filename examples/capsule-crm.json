@@ -1,0 +1,216 @@
+{
+  "server": "capsule-n8n",
+  "url": "https://tucomarine.app.n8n.cloud/mcp/d3d00cc0-536b-4ea6-946d-267bcabf01b8",
+  "timestamp": "2026-03-06",
+  "context": "Evaluating n8n-hosted Capsule CRM MCP server for Tuco SIA plugin. Read-only tests. Run 3 — all required params filled correctly.",
+  "tests": [
+    {
+      "id": "read-1",
+      "name": "search-known-company",
+      "tool": "search_contacts",
+      "params": {"q": "Tuco", "page": "1", "perPage": "10"},
+      "workflow_step": "Search if company exists in Capsule",
+      "assertions": [
+        "Returns at least one result",
+        "Each result has an ID field usable for follow-up calls",
+        "Organisation/company name is present in response",
+        "Contact type (person vs organisation) is distinguishable",
+        "Response includes or links to tags"
+      ]
+    },
+    {
+      "id": "read-1b",
+      "name": "search-pagination-test",
+      "tool": "search_contacts",
+      "params": {"q": "Tuco", "page": "1", "perPage": "2"},
+      "workflow_step": "Test: does perPage actually limit results?",
+      "assertions": [
+        "Returns 2 or fewer results",
+        "Same field quality as read-1"
+      ]
+    },
+    {
+      "id": "read-2",
+      "name": "list-contacts-page",
+      "tool": "list_contacts",
+      "params": {"since": "2020-01-01T00:00:00Z", "page": "1", "perPage": "5", "embed": "tags"},
+      "workflow_step": "Browse contacts to get IDs and see tag embeds",
+      "assertions": [
+        "Returns a list of contacts",
+        "Each contact has an ID",
+        "Contact type distinguishable (person vs organisation)",
+        "Tags embedded in response"
+      ]
+    },
+    {
+      "id": "read-2b",
+      "name": "get-contact-by-id",
+      "tool": "get_contact",
+      "params": {"contactId": "223741868", "embed": "tags,fields"},
+      "workflow_step": "Get Tuco Marine org detail (ID from search results)",
+      "assertions": [
+        "Organisation name present",
+        "Tags included (via embed)",
+        "Custom fields included (via embed)",
+        "Phone numbers present",
+        "Email addresses present",
+        "Addresses present"
+      ]
+    },
+    {
+      "id": "read-3",
+      "name": "timeline-entries-org",
+      "tool": "list_entries",
+      "params": {"entity": "parties", "entityId": "223741868"},
+      "workflow_step": "Check interaction history for Tuco Marine org",
+      "assertions": [
+        "Entries have a type field (email, note, call, meeting)",
+        "Date/timestamp present on each entry",
+        "Content or body included (not just subject/metadata)",
+        "Linked party (contact/org) visible per entry"
+      ]
+    },
+    {
+      "id": "read-3b",
+      "name": "timeline-entries-person",
+      "tool": "list_entries",
+      "params": {"entity": "parties", "entityId": "130783969"},
+      "workflow_step": "Check timeline for Tuco Marine person contact (high activity expected — CONTEXT BOMB TEST)",
+      "assertions": [
+        "Returns entries",
+        "Content volume assessment — how many tokens for an active contact?"
+      ]
+    },
+    {
+      "id": "read-4",
+      "name": "projects-list",
+      "tool": "list_projects",
+      "params": {"since": "2024-01-01T00:00:00Z", "page": "1", "perPage": "10", "embed": "tags,party"},
+      "workflow_step": "Find Contact Case projects with embedded tags and party",
+      "assertions": [
+        "Project name visible",
+        "Tags included in response (via embed)",
+        "Linked parties visible (via embed)",
+        "Track info present",
+        "Drop Box / BCC address visible"
+      ]
+    },
+    {
+      "id": "read-4b",
+      "name": "projects-minimal",
+      "tool": "list_projects",
+      "params": {"since": "2024-01-01T00:00:00Z", "page": "1", "perPage": "3", "embed": "tags"},
+      "workflow_step": "Projects with minimal embeds — compare token footprint to read-4",
+      "assertions": [
+        "Returns 3 or fewer projects",
+        "Tags still present"
+      ]
+    },
+    {
+      "id": "read-5",
+      "name": "tasks-open-embedded",
+      "tool": "list_tasks",
+      "params": {"status": "open", "page": "1", "perPage": "10", "embed": "party,kase,owner"},
+      "workflow_step": "Open tasks with full embeds — BD Track follow-ups",
+      "assertions": [
+        "Task description present",
+        "Due date present",
+        "Status visible",
+        "Linked project visible (via kase embed)",
+        "Assignee visible (via owner embed)",
+        "Track origin visible"
+      ]
+    },
+    {
+      "id": "read-5b",
+      "name": "tasks-minimal",
+      "tool": "list_tasks",
+      "params": {"status": "open", "page": "1", "perPage": "5", "embed": ""},
+      "workflow_step": "Tasks without embeds — measure token difference",
+      "assertions": [
+        "Basic task fields present",
+        "Due date present without embeds"
+      ]
+    },
+    {
+      "id": "read-6",
+      "name": "pipelines",
+      "tool": "list_pipelines",
+      "params": {},
+      "workflow_step": "Sales pipeline structure",
+      "assertions": [
+        "Pipeline names visible",
+        "Pipeline IDs present"
+      ]
+    },
+    {
+      "id": "read-6b",
+      "name": "milestones",
+      "tool": "list_milestones",
+      "params": {},
+      "workflow_step": "Pipeline stages/milestones",
+      "assertions": [
+        "Milestone names visible",
+        "Milestone IDs present",
+        "Pipeline association visible"
+      ]
+    },
+    {
+      "id": "read-7",
+      "name": "tags-parties",
+      "tool": "list_tags",
+      "params": {"entity": "parties"},
+      "workflow_step": "Available tags for contacts/orgs",
+      "assertions": [
+        "Tag names visible",
+        "Tag IDs present"
+      ]
+    },
+    {
+      "id": "read-7b",
+      "name": "tags-projects",
+      "tool": "list_tags",
+      "params": {"entity": "kases"},
+      "workflow_step": "Available tags for projects",
+      "assertions": [
+        "Tag names visible",
+        "Tag IDs present"
+      ]
+    },
+    {
+      "id": "read-8",
+      "name": "track-definitions",
+      "tool": "list_track_definitions",
+      "params": {},
+      "workflow_step": "Discover BD Track and other track templates",
+      "assertions": [
+        "Track names visible",
+        "Track IDs present",
+        "Track description or steps visible"
+      ]
+    },
+    {
+      "id": "read-9",
+      "name": "custom-fields-parties",
+      "tool": "list_custom_fields",
+      "params": {"entity": "parties"},
+      "workflow_step": "Custom fields for contacts/orgs",
+      "assertions": [
+        "Custom field names visible",
+        "Field types visible",
+        "Field IDs present"
+      ]
+    },
+    {
+      "id": "read-10",
+      "name": "users",
+      "tool": "list_users",
+      "params": {},
+      "workflow_step": "CRM users for task assignment",
+      "assertions": [
+        "User names visible",
+        "User IDs present"
+      ]
+    }
+  ]
+}

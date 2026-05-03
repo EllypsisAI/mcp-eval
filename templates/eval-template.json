@@ -1,0 +1,53 @@
+{
+  "server": "YOUR_SERVER_NAME",
+  "url": "https://your-server.example.com/mcp/endpoint",
+  "timestamp": "2026-01-01",
+  "context": "Brief description of why you're evaluating this server and what matters most.",
+  "tests": [
+    {
+      "id": "basic-1",
+      "name": "simple-tool-call",
+      "tool": "list_items",
+      "params": {},
+      "workflow_step": "Verify the tool responds and returns structured data",
+      "assertions": [
+        "Returns at least one result",
+        "Each result has an ID field",
+        "Response contains structured data, not raw HTML or error text"
+      ]
+    },
+    {
+      "id": "param-1",
+      "name": "filtered-query",
+      "tool": "search_items",
+      "params": {
+        "query": "test-value",
+        "page": "1",
+        "perPage": "5"
+      },
+      "workflow_step": "Test search with specific params and pagination",
+      "assertions": [
+        "Returns 5 or fewer results",
+        "Results are relevant to the query",
+        "Each result has a name or title field"
+      ]
+    },
+    {
+      "id": "embed-1a",
+      "name": "detail-with-embeds",
+      "tool": "get_item",
+      "params": {
+        "itemId": "FILL_FROM_basic-1.results[0].id",
+        "embed": "tags,related"
+      },
+      "depends_on": "basic-1",
+      "workflow_step": "Get full detail with embeds — measure token cost of rich responses",
+      "assertions": [
+        "Item name or title present",
+        "Tags included via embed",
+        "Related items included via embed",
+        "Response is useful for downstream processing"
+      ]
+    }
+  ]
+}
