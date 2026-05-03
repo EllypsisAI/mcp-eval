@@ -23,13 +23,24 @@ It also gives you something concrete to point at when deciding whether to ship a
 
 ## Install
 
-This is a Claude Code plugin. Drop the directory into `~/.claude/plugins/mcp-eval/` (or wherever your Claude Code installation expects plugins). The pipeline scripts use only the Python standard library — no `pip install` needed for the plugin itself. Tests need `pytest`.
+The plugin distributes itself as a Claude Code marketplace, so installation is two slash commands:
+
+```
+/plugin marketplace add EllypsisAI/mcp-eval
+/plugin install mcp-eval@mcp-eval
+```
+
+That's it. The five commands (`/eval-init`, `/eval-run`, `/eval-capture`, `/eval-grade`, `/eval-report`), the `evaluate` skill, and the `grader` agent become available immediately.
+
+The pipeline scripts use only the Python standard library — no `pip install` needed at runtime. The test suite needs `pytest` if you want to run it.
+
+### Manual install (without the marketplace mechanism)
 
 ```bash
 git clone https://github.com/EllypsisAI/mcp-eval.git ~/.claude/plugins/mcp-eval
 ```
 
-Restart Claude Code. The four commands (`/eval-init`, `/eval-run`, `/eval-capture`, `/eval-grade`, `/eval-report`) and the `evaluate` skill should now be available.
+Restart Claude Code.
 
 ## Quick start
 
