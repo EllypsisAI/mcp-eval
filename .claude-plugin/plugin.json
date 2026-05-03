@@ -2,7 +2,11 @@
   "name": "mcp-eval",
   "version": "0.2.0",
   "description": "Evaluate MCP servers for production readiness. Test tools, measure token costs, grade responses, generate visual reports.",
-  "author": "Ellypsis",
+  "author": {
+    "name": "Ellypsis",
+    "email": "sewar@ellypsis.dk"
+  },
+  "homepage": "https://github.com/EllypsisAI/mcp-eval",
   "license": "MIT",
   "keywords": [
     "mcp",
