@@ -23,18 +23,26 @@ It also gives you something concrete to point at when deciding whether to ship a
 
 ## Install
 
-The plugin distributes itself as a Claude Code marketplace, so installation is two slash commands:
+mcp-eval is part of the [Ellypsis Plugin Labs](https://github.com/EllypsisAI/ellypsis-plugin-labs) marketplace. Add the marketplace once, install any plugin from it on demand:
 
 ```
-/plugin marketplace add EllypsisAI/mcp-eval
-/plugin install mcp-eval@mcp-eval
+/plugin marketplace add EllypsisAI/ellypsis-plugin-labs
+/plugin install mcp-eval@ellypsis-labs
 ```
 
-That's it. The five commands (`/eval-init`, `/eval-run`, `/eval-capture`, `/eval-grade`, `/eval-report`), the `evaluate` skill, and the `grader` agent become available immediately.
+The five commands (`/eval-init`, `/eval-run`, `/eval-capture`, `/eval-grade`, `/eval-report`), the `evaluate` skill, and the `grader` agent become available immediately.
 
 The pipeline scripts use only the Python standard library — no `pip install` needed at runtime. The test suite needs `pytest` if you want to run it.
 
-### Manual install (without the marketplace mechanism)
+### Standalone install
+
+If you only want this plugin and don't care about the rest of Ellypsis Labs:
+
+```
+/plugin marketplace add EllypsisAI/mcp-eval
+```
+
+Or fully manual:
 
 ```bash
 git clone https://github.com/EllypsisAI/mcp-eval.git ~/.claude/plugins/mcp-eval
