@@ -1,13 +1,6 @@
 ---
-name: eval-init
 description: Connect to an MCP server and scaffold test cases for every tool it exposes.
-arguments:
-  - name: url
-    description: MCP server endpoint URL, OR "claude" / "stdio" for in-conversation MCPs
-    required: true
-  - name: output
-    description: Output file path (default: eval-tests.json)
-    required: false
+argument-hint: "<url> [output]"
 ---
 
 # /eval-init

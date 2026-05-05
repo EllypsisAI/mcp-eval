@@ -1,10 +1,6 @@
 ---
-name: eval-grade
 description: Grade MCP eval responses against their assertions using programmatic checks and LLM judgment.
-arguments:
-  - name: workspace
-    description: Path to the eval-workspace directory (default: eval-workspace)
-    required: false
+argument-hint: "[workspace]"
 ---
 
 # /eval-grade

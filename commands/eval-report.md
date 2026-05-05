@@ -1,10 +1,6 @@
 ---
-name: eval-report
 description: Generate an HTML report from MCP eval results and grading data.
-arguments:
-  - name: workspace
-    description: Path to the eval-workspace directory (default: eval-workspace)
-    required: false
+argument-hint: "[workspace]"
 ---
 
 # /eval-report

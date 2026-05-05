@@ -1,13 +1,6 @@
 ---
-name: eval-run
 description: Execute MCP eval test cases against a live server (HTTP transport) and capture responses.
-arguments:
-  - name: test-file
-    description: Path to the eval test JSON file (default: eval-tests.json)
-    required: false
-  - name: output-dir
-    description: Output directory for results (default: eval-workspace)
-    required: false
+argument-hint: "[test-file] [output-dir]"
 ---
 
 # /eval-run

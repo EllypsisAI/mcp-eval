@@ -1,13 +1,6 @@
 ---
-name: eval-capture
 description: Run an MCP eval against a server Claude can already see (OAuth, stdio, in-conversation MCPs that don't expose an HTTP endpoint).
-arguments:
-  - name: test-file
-    description: Path to the eval test JSON file (default: eval-tests.json)
-    required: false
-  - name: output-dir
-    description: Output directory for results (default: eval-workspace)
-    required: false
+argument-hint: "[test-file] [output-dir]"
 ---
 
 # /eval-capture
